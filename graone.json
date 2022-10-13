@@ -1,0 +1,29 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A simple bar chart with embedded data.",
+  "data": {
+    "values": [
+      {
+        "took": 18,
+        "timed_out": false,
+        "_shards": {"total": 1, "successful": 1, "skipped": 0, "failed": 0},
+        "hits": {"total": 8910, "max_score": null, "hits": []},
+        "aggregations": {
+          "countries": {
+            "buckets": [
+              {"key": 0, "doc_count": 2, "unique": {"value": 2}},
+              {"key": 1, "doc_count": 9, "unique": {"value": 9}},
+              {"key": 2, "doc_count": 13, "unique": {"value": 13}},
+              {"key": 21, "doc_count": 2, "unique": {"value": 2}}
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "transform": [
+    {"flatten": ["aggregations.countries.buckets"], "as": ["bucketss"]}
+  ],
+  "mark": "tick",
+  "encoding": {"x": {"field": "bucketss.unique.value", "type": "quantitative"}}
+}
