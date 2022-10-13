@@ -1,0 +1,39 @@
+{
+  $schema: https://vega.github.io/schema/vega-lite/v5.json
+  title: Usando fechas
+
+  data: {
+    url: {
+      %context%: true
+      %timefield%: "activeissue.transitiontime"
+      index: nable.issues
+      body: {
+        "aggs": {
+          "my_buckets": {
+            "composite": {
+              size: 4000,
+              "sources": [
+                { "deviceid": { "terms": { "field": "activeissue.deviceid"  } } },
+                { "devicseid": { "terms": { "field": "activeissue.taskid"  } } },
+                { "data_transitiontime": { "terms": { "field": "activeissue.transitiontime"  } } }
+              ]
+            }
+          }
+        }
+    }
+    }
+    format: {property: "aggregations.my_buckets.buckets"}
+    transform: [
+    {
+      flatten: ["my_buckets.buckets"],
+      as: ["filels"]
+    }
+  ]
+
+  }
+"mark": "point",
+  "encoding": {
+    "x": {"field": "key.data_transitiontime", "type": "temporal"},
+    "y": {"field": "key.devicseid", "type": "quantitative"}
+  }
+}
